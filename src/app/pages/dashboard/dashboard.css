@@ -1,0 +1,33 @@
+.accordion-button {
+  font-weight: bold;
+  background-color: #f0fdf4;
+  color: #14532d;
+}
+.accordion-button:not(.collapsed) {
+  background-color: #34d399;
+  color: white;
+}
+img {
+  object-fit: contain;
+  max-height: 450px;
+}
+
+button.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+#scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.weather-detail{
+  font-size: 1rem;
+}

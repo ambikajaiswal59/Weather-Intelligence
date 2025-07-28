@@ -1,0 +1,53 @@
+.sidebar {
+  width: 160px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  border-right: 1px solid #ddd;
+}
+
+.menu-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 10px 0;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none !important;
+}
+
+.menu-item img {
+  height: 32px;
+  margin-bottom: 4px;
+  transition: filter 0.3s ease, transform 0.2s ease;
+  
+}
+
+.menu-item:hover img {
+  transform: scale(1.05);
+  filter: brightness(0) saturate(100%) invert(43%) sepia(84%) saturate(684%) hue-rotate(66deg) brightness(92%) contrast(89%); 
+}
+
+.menu-text {
+  font-size: 13px;
+  color: #333;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: #e6ffe6;
+  border-radius: 8px;
+  color: green;
+}
+
+.menu-item:hover .menu-text,
+.menu-item.active .menu-text {
+  color: green;
+  font-weight: 600;
+}
+
+.menu-item:hover img,
+.menu-item.active img {
+  filter: hue-rotate(80deg) brightness(1.2); /* or use green icon variant */
+}

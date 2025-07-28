@@ -1,0 +1,35 @@
+<div>
+    <!-- <div class="map_container_div" id="map" style="cursor: pointer;">
+        
+            <div id="popup" class="ol-popup"  >
+                <div id="popup-content">
+                    <h6>{{ selectedTower?.SITE_NAME }}</h6>
+                    <p><strong>Site ID:</strong> {{ selectedTower?.INDUS_SITE_ID }}</p>
+                    <p><strong>District:</strong> {{ selectedTower?.DISTRICTNAME }}</p>
+                    <p><strong>Category:</strong> {{ selectedTower?.SITECATEGORY }}</p>
+                    <p><strong>DG:</strong> {{ selectedTower?.DG_STATUS }}</p>
+                    <p><strong>Strategic:</strong> {{ selectedTower?.STRATEGIC }}</p>
+                </div>
+            </div>
+
+    </div> -->
+
+     <div class="map_container_div" id="map">
+            <div id="popup" class="ol-popup">
+                <div id="popup-content">
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th colspan="2" class="table-heading">
+                                    Tower Information
+                                    <span href="#" id="popup-closer">×</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+</div>
