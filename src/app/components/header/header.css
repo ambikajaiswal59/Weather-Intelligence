@@ -41,8 +41,8 @@
 }
 
 .profileDiv {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background: #fff;
   position: relative;
@@ -54,13 +54,15 @@
 }
 
 .profileDorpdown {
-  width: max-content;
+  width: 100px;
   height: max-content;
   position: absolute;
   padding: 5px 10px;
+  margin-bottom: 10px;
   background-color: #419d65;
   top: 35px;
-  right: 0px;
+  right: -6px !important;
+  
   z-index: 10;
   border-radius: 10px;
   box-shadow: 0px 0px 5px 0px silver;
@@ -71,8 +73,8 @@
 }
 
 .userName {
-  margin: 3px 5px;
-  padding: 3px 5px;
+  margin: 3px 0px;
+  padding: 5px 5px;
   width: 100%;
   height: max-content;
   padding: 5px;
@@ -82,9 +84,10 @@
   border-radius: 5px;
 }
 .logoutBtn{
-  margin: 3px 5px;
-  padding: 3px 5px;
-  border: 1px solid silver;
+  border: none;
+  margin: 5px 0px;
+  padding: 5px 5px;
+  border: 1px solid rgb(182, 56, 56);
   width: 100%;
   height: max-content;
   padding: 5px;
@@ -94,7 +97,7 @@
   border-radius: 5px;
 }
 
-.profileDorpdown>div:hover {
+/* .profileDorpdown>div:hover {
  background-color: #098d3b;
  cursor: pointer;
 }
@@ -102,7 +105,7 @@
 .profileImg{
   width: 20px;
   height: 20px;
-}
+} */
 
 
 

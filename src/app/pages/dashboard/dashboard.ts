@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DataService } from '../../data-service/data-service';
 import { MapWeather } from '../../components/map-weather/map-weather';
 import { FormsModule } from '@angular/forms';
+import { WeatherService } from '../../services/weather';
 
 interface HazardItem {
   state: string;
@@ -17,6 +18,7 @@ interface HourlyWeather {
   temp: number;
   rain: number;
   wind: number;
+  chanceOfRain: any;
   icon: string;
 }
 
@@ -26,6 +28,7 @@ interface DailyWeather {
   maxTemp: number;
   description: string;
   chanceOfRain: any;
+  humidity: any;
   icon: string;
 }
 @Component({
@@ -55,14 +58,16 @@ export class Dashboard implements OnInit, AfterViewInit  {
   hourlyData: HourlyWeather[] = [];
   weatherData: DailyWeather[] = [];
 
-  constructor(private dataService: DataService,private cdr: ChangeDetectorRef) {}
+  constructor(private dataService: DataService,private cdr: ChangeDetectorRef,private WeatherService: WeatherService) {}
 
   ngOnInit(): void {
     //this.fetchWeatherData();
   }
 
   ngAfterViewInit(): void {
-    this.fetchWeatherData();
+    this.WeatherService.location$.subscribe((location: string) => {
+    this.fetchWeatherData(location);
+  });
   }
 
    toggleAccordion(panel: string) {
@@ -99,9 +104,9 @@ scrollRight() {
 
 
   // #region Fetch Weather data
-  fetchWeatherData = () => {
+  fetchWeatherData = (location: string = 'Varanasi,India') => {
     this.loading = true;
-    this.dataService.getWeatherForecast('Delhi,India').subscribe({
+    this.dataService.getWeatherForecast(location).subscribe({
       next: (data: any) => {
         this.location = data.location;
         this.current = data.current;
@@ -134,6 +139,7 @@ scrollRight() {
             time: hour.time.split(' ')[1],
             temp: hour.temp_c,
             rain: hour.precip_mm,
+            chanceOfRain: hour.chance_of_rain,
             wind: hour.wind_kph,
             icon: hour.condition.icon,
           })
@@ -145,6 +151,7 @@ scrollRight() {
             day: '2-digit',
             month: 'short',
           }),
+          humidity: day.day.avghumidity,
           minTemp: day.day.mintemp_c,
           maxTemp: day.day.maxtemp_c,
           description: day.day.condition.text,
@@ -171,6 +178,7 @@ scrollRight() {
   // #region Scroll
 
   // #Endregion
+  
   // #region Hazard Risk
   hazardData: HazardItem[] = [
     {

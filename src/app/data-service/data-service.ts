@@ -35,9 +35,9 @@ export class DataService {
     );
   }
   getWeatherForecast(location: string): Observable<any> {
-    debugger
+    
     const apiUrl = 'https://api.weatherapi.com/v1/forecast.json';
-    const apiKey = '6e28b1d11b314f5db2b43257251707';
+    const apiKey = 'cce032f9a3ac4eca9ea74404253007';
     return this.http.get(
       `${apiUrl}?key=${apiKey}&q=${location}&days=7&aqi=no&alerts=no`
     );

@@ -6,18 +6,18 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Reports } from './pages/reports/reports';
 import { THVS } from './pages/thvs/thvs';
 import { authGuard } from './auth/auth-guard';
-import { Home } from './pages/home/home';
+//import { Home } from './pages/home/home';
 
 
 export const routes: Routes = [
-  { path: '', component: Login, pathMatch: 'full' },
+  { path: '', component: Login },
 
   {
     path: '',
     component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'home', component: Home },
+      //{ path: 'home', component: Home },
       { path: 'dashboard', component: Dashboard },
 
       // REPORT ROUTES
@@ -29,5 +29,5 @@ export const routes: Routes = [
       { path: 'THVS', component: THVS },
     ]
   },
-  { path: 'home', component: Home, pathMatch: 'full' },
+  //{ path: 'home', component: Home, pathMatch: 'full' },
 ];

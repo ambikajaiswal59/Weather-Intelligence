@@ -1,1 +1,147 @@
-<p>reports works!</p>
+<!-- Tab Header -->
+<ul class="nav nav-pills custom-tabs mb-3" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="weather-tab" data-bs-toggle="tab" data-bs-target="#weather" type="button"
+            role="tab">
+            WEATHER
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="hazard-tab" data-bs-toggle="tab" data-bs-target="#hazard" type="button" role="tab">
+            HAZARD
+        </button>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content rounded shadow-sm border bg-white p-3">
+    <div class="tab-pane fade show active" id="weather" role="tabpanel">
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <!-- Left Panel -->
+                <div class="col-lg-5 col-md-6">
+                    <div class="p-4 bg-light shadow-sm rounded d-flex flex-column justify-content-between">
+                        <h5 class="text-success mb-3">{{ location?.name }}, {{ location?.region }}</h5>
+
+                        <div class="card flex-grow-1 p-3 weather-card">
+                            <p class="text-muted fw-bold mb-1">TODAY’S WEATHER</p>
+                            <p class="text-secondary small mb-3">{{ currentTime }}</p>
+
+                            <div class="inside-riskdiv d-flex flex-row gap-3 flex-nowrap overflow-auto">
+                                <div class="fourdiv text-center" *ngFor="let item of weatherKPIs"
+                                    [ngClass]="item.label.toLowerCase()">
+                                    <div class="d-flex flex-column align-items-center mb-2">
+                                        <img [src]="item.icon" alt="icon" width="48" height="48" class="mb-2" />
+                                        <span class="fw-semibold text-dark">{{ item.label }}</span>
+                                    </div>
+
+                                    <div class="color-stack d-flex flex-column align-items-center gap-1">
+                                        <div>Max: <span class="pin fw-semibold">{{ item.max }}</span></div>
+                                        <div>Min: <span class="yello fw-semibold">{{ item.min }}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Right Panel -->
+                <div class="col-lg-7 col-md-6">
+                    <div class=" shadow-sm rounded overflow-hidden" style=" height: 47vh;">
+                        <app-map-weather></app-map-weather>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="row g-3 mt-4" *ngIf="isBrowser">
+                <div class="col-md-6">
+                    <div class="chart-box p-3 shadow-sm bg-white rounded">
+                        <canvas baseChart [data]="barChartData1" [options]="barChartOptions1" [legend]="barChartLegend"
+                            [type]="barChartType"></canvas>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="chart-box p-3 shadow-sm bg-white rounded">
+                        <canvas baseChart [data]="barChartData2" [options]="barChartOptions2" [legend]="barChartLegend"
+                            [type]="barChartType"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div class="dashboard-wrapper mt-4 shadow-sm p-3 bg-white rounded">
+                <div class="dashboard-container d-flex">
+                    <!-- Icon Column -->
+                    <div class="icon-column me-3">
+                        <div *ngFor="let icon of icons" class="icon-cell mb-2">
+                            <img [src]="icon" alt="Icon" class="icon-size" />
+                        </div>
+                    </div>
+
+                    <!-- Cards -->
+                    <div class="cards-container d-flex flex-wrap gap-3">
+                        <div *ngFor="let day of days" class="day-card p-3 bg-light rounded shadow-sm">
+                            <div class="card-header fw-bold mb-2 d-flex justify-content-between">
+                                <div>{{ day.name }}</div>
+                                <div>{{ day.date }}</div>
+                            </div>
+
+                            <div *ngFor="let _ of weatherData" class="value-row d-flex justify-content-between">
+                                <div class="value-box red">178</div>
+                                <div class="value-box orange">456</div>
+                                <div class="value-box yellow">1230</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-responsive shadow-sm rounded mt-3 p-0">
+                <table class="table table-bordered text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th>Severity</th>
+                            <th>
+                                <img src="assets/icons/temp.svg" class="icon-size me-1" />
+                                Temperature
+                            </th>
+                            <th>
+                                <img src="assets/icons/rainfall.svg" class="icon-size me-1" />
+                                Rainfall
+                            </th>
+                            <th>
+                                <img src="assets/icons/wind.svg" class="icon-size me-1" />
+                                Wind Speed
+                            </th>
+                            <th>
+                                <img src="assets/icons/Humidity.svg" class="icon-size me-1" />
+                                Humidity
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="severityTable?.length">
+                        <tr *ngFor="let severity of severityTable">
+                            <td [ngClass]="getSeverityClass(severity.label)">
+                                {{ severity.label }}
+                            </td>
+                            <td>{{ severity.temp }}</td>
+                            <td>{{ severity.rainfall }}</td>
+                            <td>{{ severity.wind }}</td>
+                            <td>{{ severity.fog }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="tab-pane fade" id="hazard" role="tabpanel">
+        <p class="mb-0">Hazard content...</p>
+    </div>
+</div>

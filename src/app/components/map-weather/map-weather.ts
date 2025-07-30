@@ -25,6 +25,9 @@ import jsPDF from 'jspdf';
 import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
 import { MapExportService } from '../../shared/map-export.service';
+import { WeatherService } from '../../services/weather';
+import FullScreen from 'ol/control/FullScreen';
+import { defaults as olDefaultControls } from 'ol/control/defaults';
 
 @Component({
   selector: 'app-map-weather',
@@ -61,7 +64,8 @@ export class MapWeather implements AfterViewInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private mapExport: MapExportService,
-    private dataService: DataService
+    private dataService: DataService,
+    private WeatherService: WeatherService
   ) {}
   weatherApiData: any = {};
   newTowerLayer!: VectorLayer<any>;
@@ -108,13 +112,13 @@ export class MapWeather implements AfterViewInit {
   loading = false; // Loader flag
   private mapImage: string | null = null;
 
-  towerIconUrl = '/assets/icons/tower_2.svg'; // or your own SVG
+  towerIconUrl = 'assets/icons/tower_2.svg'; // or your own SVG
 
   private dataPoints: any[] = [];
 
   async ngAfterViewInit(): Promise<void> {
     await this.initializeMap();
-    await this.fetchRiskData();
+    //await this.fetchRiskData();
     // this.exportMapAsImage();
     this.filterCircleData();
 
@@ -236,8 +240,6 @@ export class MapWeather implements AfterViewInit {
         filteredStates = filteredStates.concat(truncatedStates);
       });
     }
-
-    console.log(filteredStates);
     this.circleArray = ['All', ...filteredStates];
   }
 
@@ -373,19 +375,18 @@ export class MapWeather implements AfterViewInit {
     windChill: string;
     cloud: string;
     condition: string;
+    conditionIcon: string;
     dataTimeStamp: string;
   } | null> {
-    const apiKey = '6e28b1d11b314f5db2b43257251707';
-    const apiUrl = 'http://api.weatherapi.com/v1/current.json?key=';
+    const apiKey = 'cce032f9a3ac4eca9ea74404253007';
+    const apiUrl = 'https://api.weatherapi.com/v1/current.json?key=';
     const finalUrl = `${apiUrl}${apiKey}&q=${lat},${lon}`;
-    console.log(`finalUrl:${finalUrl}`);
     try {
       const response = await fetch(finalUrl);
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
       }
       const data = await response.json();
-
       this.weatherApiData = data;
       const id = `${lat}_${lon}`;
       this.towerWeatherInfo[id] = {
@@ -408,6 +409,7 @@ export class MapWeather implements AfterViewInit {
         windChill: data.current.windchill_c?.toString() ?? '',
         cloud: data.current.cloud?.toString() ?? '',
         condition: data.current.condition.text ?? '',
+        // conditionIcon: data.current.condition.icon ?? '',
         dataTimeStamp: data.current.last_updated ?? '',
       };
       return {
@@ -430,6 +432,7 @@ export class MapWeather implements AfterViewInit {
         windChill: data.current.windchill_c?.toString() ?? '',
         cloud: data.current.cloud?.toString() ?? '',
         condition: data.current.condition.text ?? '',
+        conditionIcon: data.current.condition.icon ?? '',
         dataTimeStamp: data.current.last_updated ?? '',
       };
     } catch (error) {
@@ -440,26 +443,11 @@ export class MapWeather implements AfterViewInit {
 
   // Assuming this.map is your OpenLayers map instance
   zoomToNewTowerLayerFeatures(layer: any): void {
-   
-    const towerLayerExtent = layer.getSource().getExtent();
-    this.map.getView().fit(towerLayerExtent, {
-      size: this.map.getSize(),
-    });
-  //   if (towerLayerExtent && !isNaN(towerLayerExtent[0])) {
-  //   // First, center the map on the extent
-  //   const center = [
-  //     (towerLayerExtent[0] + towerLayerExtent[2]) / 2,
-  //     (towerLayerExtent[1] + towerLayerExtent[3]) / 2
-  //   ];
 
-  //   this.map.getView().animate({
-  //     center: center,
-  //     zoom: 12,          // ✅ Fixed zoom level
-  //     duration: 1000
-  //   });
-  // } else {
-  //   console.warn('Layer has no features or valid extent');
-  // }
+    const varanasiCoordinates = fromLonLat([82.9739, 25.3176]); // [lon, lat]
+
+    this.map.getView().setCenter(varanasiCoordinates);
+    this.map.getView().setZoom(10);
   }
 
   private async initializeMap(): Promise<void> {
@@ -533,13 +521,15 @@ export class MapWeather implements AfterViewInit {
     this.map = new Map({
       target: 'map',
       layers: [baseMap, teleconServices, newTowerLayer],
-      
-      // layers: [baseMap, newTowerLayer, ],
+
       view: new View({
-        projection: 'EPSG:3857', // ✅ Use geographic coordinates (lon/lat)
+        projection: 'EPSG:3857',
         center: fromLonLat([80.9, 26.85]),
         zoom: 5.5,
       }),
+      controls: olDefaultControls().extend([
+    new FullScreen()
+  ])
     });
 
     // --- Popup element
@@ -567,69 +557,85 @@ export class MapWeather implements AfterViewInit {
     };
 
     this.map.on('click', async (evt) => {
-      debugger;
+
       // const feature = this.map.forEachFeatureAtPixel(evt.pixel, f => f);
       var pixel = this.map.getEventPixel(evt.originalEvent);
       const feature = this.map.forEachFeatureAtPixel(pixel, async (feature) => {
         if (feature) {
           let id = feature.getId();
-          console.log(`id feature: ${id}`);
 
           if (id !== undefined && id !== null) {
             if (!this.popupOverlay) {
-              // console.error('Popup overlay is not initialized yet.');
               return;
             }
             const targetFeature = this.newtowerSource.getFeatureById(id);
-            // console.log('Target feature:', targetFeature);
             let towerLat = targetFeature?.get('PRIORITY_LATITUDE');
             let towerLon = targetFeature?.get('PRIORITY_LONGITUDE');
-
+            let siteName = (targetFeature?.get('SITE_NAME') || '').toUpperCase();
+            let district = targetFeature?.get('DISTRICTNAME');
+            let siteCategory = targetFeature?.get('SITECATEGORY');
+            let dgStatus = targetFeature?.get('DG_STATUS');
+            let circle = targetFeature?.get('CIRCLE');
+            let strategic = targetFeature?.get('STRATEGIC');
+            if (towerLat && towerLon) {
+              this.WeatherService.setLocation(towerLat, towerLon);
+            }
             const coord = evt.coordinate;
             const resultData = await this.getWeatherFromLatLong(
               towerLat,
               towerLon
             );
-            const wind_Direction = resultData?.windDir;
+            if (!resultData) return;
 
-            // If valid direction, calculate angle
-            const html = ` <strong>${resultData?.name}</strong><br>
-              <img src='assets/icons/popup_temp.svg' alt='temp_icon' width="20" style="vertical-align: middle; margin-right: 6px;"/> ${resultData?.temp}°C<br>
-              <img src='assets/icons/popup_rainfall.svg' alt='temp_icon' width="20" style="vertical-align: middle; margin-right: 6px; filter: invert(18%) sepia(93%) saturate(2740%) hue-rotate(200deg) brightness(90%) contrast(94%);"/> ${resultData?.condition}<br>
-              <img src='assets/icons/popup_winds.svg' alt='temp_icon' width="20" style="vertical-align: middle; margin-right: 6px;"/> ${resultData?.windSpeed} km/h <img id="windIcon" src='assets/icons/popup_windDir.svg' alt='temp_icon' width="20" style="vertical-align: middle; margin-right: 6px;"/>${resultData?.windDir}<br>
-              <img src='assets/icons/popup_clouds.svg' alt='temp_icon' width="20" style="vertical-align: middle; margin-right: 6px;"/>  ${resultData?.cloud}%<br>
-              <img src='assets/icons/popup_humidity.svg' alt='temp_icon' width="20" style="vertical-align: middle; margin-right: 6px;"/> ${resultData?.humidity}%`;
+            const weatherIconUrl = resultData?.conditionIcon
+              ? `https:${resultData.conditionIcon}`
+              : '';
+
+            const html = `
+  <div style="font-family: 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.6;">
+    
+    <div style="border-bottom: 1px solid #ddd; padding-bottom: 6px; margin-bottom: 10px;">
+      <div>
+        <i class="fas fa-broadcast-tower" style="color: #007bff;"></i>
+        <strong>SITE:</strong> ${siteName}
+      </div>
+      <div>
+        <i class="fas fa-circle" style="color: #28a745;"></i>
+        <strong>Circle:</strong> ${circle}
+      </div>
+      <div>
+        <i class="fas fa-map-marker-alt" style="color: #dc3545;"></i>
+        <strong>District:</strong> ${district}
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <div>
+        <i class="fas fa-building" style="color: #6c757d;"></i>
+        <strong>Category:</strong> ${siteCategory}
+      </div>
+      <div>
+        <i class="fas fa-bolt" style="color: #ffc107;"></i>
+        <strong>DG Status:</strong> ${dgStatus}
+      </div>
+      <div>
+        <i class="fas fa-compass" style="color: #17a2b8;"></i>
+        <strong>Strategic:</strong> ${strategic}
+      </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <img src="${weatherIconUrl}" alt="Weather Icon"
+           style="vertical-align: middle; width: 48px; height: 48px;" />
+      <span style="font-size: 1.2em; font-weight: bold;">${resultData.temp}°C</span><br>
+      <span>${resultData.condition}</span>
+    </div>
+    
+  </div>
+`;
+
             this.popupContent.innerHTML = html;
             this.popupOverlay.setPosition(coord);
-            if (typeof wind_Direction === 'string') {
-              const directions = [
-                'N',
-                'NNE',
-                'NE',
-                'ENE',
-                'E',
-                'ESE',
-                'SE',
-                'SSE',
-                'S',
-                'SSW',
-                'SW',
-                'WSW',
-                'W',
-                'WNW',
-                'NW',
-                'NNW',
-              ];
-              const anglePerDirection = 360 / directions.length;
-              const dirIndex = directions.indexOf(wind_Direction);
-              const angle = dirIndex !== -1 ? dirIndex * anglePerDirection : 0;
-
-              const icon = document.getElementById('windIcon');
-              if (icon) {
-                icon.style.transform = `rotate(${angle}deg)`;
-                icon.style.transformOrigin = '50% 50%';
-              }
-            }
           }
         } else {
           container.style.display = 'none';
@@ -648,7 +654,6 @@ export class MapWeather implements AfterViewInit {
 
       this.teleconServicesSource.addFeatures(features);
     });
-    debugger;
     this.zoomToNewTowerLayerFeatures(newTowerLayer);
   }
 
@@ -701,4 +706,7 @@ export class MapWeather implements AfterViewInit {
   ): void {
     let popupOverlay: Overlay | null = null;
   }
+}
+function defaultControls() {
+  throw new Error('Function not implemented.');
 }

@@ -1,11 +1,35 @@
+html,
+body {
+  height: 100%;
+}
+
+/* Wrapper for full height container */
+.full-height-container {
+  height: 100%;
+}
+
+/* Panel styles for equal height, padding, and shadow */
+.equal-height-panel {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+
 .accordion-button {
   font-weight: bold;
   background-color: #f0fdf4;
   color: #14532d;
+      font-size: 21px;
 }
 .accordion-button:not(.collapsed) {
   background-color: #34d399;
   color: white;
+  font-size: 21px;
 }
 img {
   object-fit: contain;
@@ -29,5 +53,117 @@ button.btn-sm {
   }
 }
 .weather-detail{
+  width: 40%;
+  /* background-color: #f0fdf4; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 1rem;
+  margin-top: 5px;
 }
+.text-success{
+  font-size: 25px;
+}
+
+.filter-btn{
+  width: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d4ddd7;
+  color: black;
+  border: none;
+  font-size: px;
+}
+.filter-btn:hover{
+  background-color: #a7ada2;
+  color: black;
+}
+.filter-btn:hover:focus{
+  background-color: rgb(194, 199, 199);
+  color: black;
+}
+.weather-station{
+  font-size: 18px;
+}
+/*************Hazard-section-css**************************************/
+
+
+/* Panel content inside accordion-body */
+
+/* Filters section */
+.panel .filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.panel select {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1.8px solid #1ba031;
+  width: 100%;
+  max-width: 350px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.panel select:hover {
+  border-color: #0056b3;
+}
+
+/* Table styling */
+.panel table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.panel th,
+.panel td {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.panel th {
+  background-color: #87d193;
+  color: white;
+}
+
+.panel tr:hover {
+  background-color: #f1f7ff;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .panel th,
+  .panel td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+
+  .panel select {
+    max-width: 100%;
+  }
+}
+.responsive-button-group button {
+  font-size: 0.75rem; /* shrink font size */
+  flex: 1 1 auto;     /* allow buttons to shrink */
+  min-width: 0;       /* prevent overflow */
+}
+
+.responsive-button-group i {
+  font-size: 1rem;    /* adjust icon size */
+}
+
+@media (max-width: 576px) {
+  .responsive-button-group button {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+  }
+}
+
+
