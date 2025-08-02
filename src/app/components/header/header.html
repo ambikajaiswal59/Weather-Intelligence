@@ -1,0 +1,31 @@
+<div [ngClass]="{
+    'header': true,
+    'd-flex': true,
+    'justify-content-between': true,
+    'align-items-center': true,
+    'px-5': true,
+    'dashboard-header': isDashboard
+  }">
+
+  <div class="headerDiv d-flex align-items-center" style="color: #494343;">
+    <img class="me-2" src="assets/icons/headerlogo.svg" alt="Logo" style="width: 70px; height: 65px; ">
+    <span class="fw-bold fs-12 ">Weather Intelligence & Disaster Alert System</span>
+  </div>
+
+  <div class="profileWithDate d-flex align-items-center gap-2 text-nowrap">
+    <span class="todayDate">Date: {{ today | date: 'dd MMMM yyyy' }}</span>
+
+    <div (click)="toggleDropdown()" class="position-relative" style="cursor: pointer;" title="Profile">
+      <img class="profileImg" src="assets/icons/profile.svg" alt="Profile"
+        style="width: 36px; height: 36px; background-color: white; padding: 4px; border-radius: 50%;">
+
+      <div *ngIf="showDropdown"
+        class="profileDorpdown position-absolute  end-0  mt-2 p-3 bg-white border rounded shadow-sm"
+        style="z-index: 10; min-width: 200px;">
+        <div class="userName fw-bold text-dark mb-2">Admin</div>
+        <div (click)="logout()" class="logoutBtn text-danger" style="cursor: pointer;">Logout</div>
+      </div>
+    </div>
+  </div>
+
+</div>

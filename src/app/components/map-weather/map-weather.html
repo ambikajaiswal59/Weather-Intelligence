@@ -1,0 +1,33 @@
+<div style="position: relative">
+  <div class="map_container_div" id="map">
+    <div id="popup" class="ol-popup">
+      <div style="text-align: right;">
+        <span id="popup-closer" style="cursor: pointer;">
+          <i class="fas fa-times"></i>
+        </span>
+      </div>
+      <div id="popup-content"></div>
+    </div>
+  </div>
+  <div class="map-credit">Powered by ML Infomap</div>
+  <div class="circle-dropdown shadow-sm">
+    <i class="fas fa-chevron-down dropdown-icon"></i>
+    <select id="circleSelect" class="form-select form-select-sm stylish-select" (change)="onCircleLevelChange($event)">
+      <option disabled selected>Select Circle Level</option>
+      <option value="circle1"> Circle 1</option>
+      <option value="circle2"> Circle 2</option>
+      <option value="circle3"> Circle 3</option>
+    </select>
+  </div>
+
+  <div *ngIf="isIDWLayer" class="legend-container">
+    <div class="label-gradient">
+      <span>{{maxRange}}</span>
+      <span>{{minRange}}</span>
+    </div>
+    <div class="color-gradient"></div>
+  </div>
+  <button *ngIf="isIDWLayer" (click)="onClearButtonClick()" class="btn btn-success clear-btn">
+    Clear
+  </button>
+</div>

@@ -1,0 +1,593 @@
+/* ------------------- TABS ------------------- */
+.custom-tabs {
+  background-color: #f9f9f9;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: inline-flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.custom-tabs .nav-link {
+  border-radius: 20px;
+  padding: 8px 24px;
+  background-color: #e9ecef;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.custom-tabs .nav-link.active {
+  background-color: #bcf1d1;
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-tabs .nav-link:hover {
+  background-color: #d8fbe4;
+  color: #000;
+}
+
+/* ------------------- TABLE ------------------- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.table {
+  min-width: 600px;
+  border-collapse: collapse;
+  margin: 0;
+  width: 100%;
+}
+
+.table thead th {
+  background-color: #bcf1d1;
+  color: #000;
+  font-weight: 600;
+  padding: 10px;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-weight: 400;
+}
+
+.table th,
+.table td {
+  border-radius: 0 !important;
+}
+
+th img.icon-size {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+td.extreme {
+  background-color: #f8d7da !important;
+  color: #721c24;
+}
+td.high {
+  background-color: #ffeeba !important;
+  color: #856404;
+}
+td.moderate {
+  background-color: #fff3cd !important;
+  color: #856404;
+}
+
+/* --- Responsive: Table --- */
+@media screen and (max-width: 768px) {
+  .table-responsive {
+    margin-bottom: 25%;
+  }
+
+  .table {
+    min-width: 600px;
+  }
+
+  .table thead th,
+  .table tbody td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .table thead th img.icon-size {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .table thead th,
+  .table tbody td {
+    font-size: 12px;
+    padding: 6px 4px;
+  }
+
+  .table thead th img.icon-size {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ------------------- KPI CARDS ------------------- */
+.inside-riskdiv {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  padding: 0 5px;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+/* Weather Card */
+.fourdiv {
+  flex: 1 1 0;
+  max-width: calc((100% - 48px) / 4); /* 4 cards with spacing */
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.fourdiv:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.fourdivimg {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fourdivimg img {
+  margin-bottom: 6px;
+}
+
+.fourdiv span {
+  font-size: 0.9rem;
+  color: #2b2b2b;
+}
+
+.color-stack {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.pin {
+  color: #007bff;
+}
+
+.yello {
+  color: #ffc107;
+}
+
+/* KPI color themes */
+.temperature {
+  background: #ffece5;
+}
+.humidity {
+  background: #e0f7f7;
+}
+.rainfall {
+  background: #e6f0ff;
+}
+.wind {
+  background: #f0f7e6;
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .inside-riskdiv {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    padding: 0 5px;
+    overflow-x: auto;  
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .inside-riskdiv::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .fourdiv {
+    flex: 0 0 auto;
+    width: 260px;
+    max-width: 90vw;
+    scroll-snap-align: start;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .fourdiv {
+    max-width: calc((100% - 32px) / 2); 
+  }
+
+  .inside-riskdiv {
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 576px) {
+  .fourdiv {
+    max-width: 100%; 
+    margin-bottom: 12px;
+  }
+}
+
+
+/* ------------------- MAP ------------------- */
+
+.map-container {
+  height: 54vh;
+  background: linear-gradient(135deg, #eaf6ff, #fefefe); /* Soft background */
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  overflow: hidden;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-container app-map-weather {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+/* Tablet view adjustments */
+@media (max-width: 768px) {
+  .map-container {
+    height: 300px;
+    margin-top: 16px;
+    padding: 10px;
+  }
+}
+
+/* Mobile view adjustments */
+@media (max-width: 576px) {
+  .map-container {
+    height: 250px;
+    padding: 8px;
+  }
+}
+
+
+/* ------------------- CHARTS ------------------- */
+.chart-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 400px;
+}
+
+@media screen and (max-width: 768px) {
+  .chart-box {
+    margin-bottom: 20px;
+    padding: 16px;
+  }
+
+  .row.g-3 > div.col-md-6 {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* ------------------- TOWER CARD ------------------- */
+.towerdiv {
+  display: flex;
+  flex-direction: row;
+  background-color: #367fb8;
+  padding: 20px;
+  gap: 10px;
+  justify-content: start;
+  align-items: center;
+  height: 180px;
+  width: 200px;
+}
+
+/* ------------------- FORECAST DASHBOARD ------------------- */
+.dashboard-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 10px;
+}
+
+.icon-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  margin-top: 20px;
+}
+
+.icon-cell {
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-cell img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 13px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.day-card {
+  flex: 0 0 auto;
+  width: 155px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.value-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.value-box {
+  width: 30px;
+  height: 25px;
+  font-size: 10px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 4px;
+}
+
+.red {
+  background-color: #f28b82;
+}
+.orange {
+  background-color: #978b67;
+}
+.yellow {
+  background-color: #fdd663;
+}
+
+.severity-extreme-1 {
+  background-color: #f7c7c2 !important;
+  font-weight: bold;
+}
+.severity-high-1 {
+  background-color: #c9bc94 !important;
+  font-weight: bold;
+}
+.severity-moderate-1 {
+  background-color: #c4a64d !important;
+  font-weight: bold;
+}
+
+
+
+
+/* ..........Prediction Table..............   */
+
+.summary-table {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Accordion button styling */
+.accordion-button.bg-prediction {
+  background-color: #bcf1d1 !important;
+  color: #1f5135;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+}
+
+/* Accordion styling */
+.accordion-item {
+  border: none;
+  background-color: transparent;
+}
+
+/* Prediction option buttons */
+.prediction-options .btn {
+  min-width: 130px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  transition: all 0.3s ease;
+}
+
+.prediction-options .btn:hover,
+.prediction-options .btn.active-btn {
+  background-color: #2b6642;
+  color: #fff;
+  border-color: #2b6642;
+}
+
+/* Prediction table styling */
+.prediction-table h6 {
+  font-size: 1rem;
+  color: #1f5135;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.prediction-table table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.prediction-table th,
+.prediction-table td {
+  text-align: center;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+/* Table header variations */
+.table-success th {
+  background-color: #bcf1d1 !important;
+  color: #1f5135;
+}
+
+.table-danger th {
+  background-color: #fddede !important;
+  color: #a94442;
+}
+
+.table-warning th {
+  background-color: #fff3cd !important;
+  color: #856404;
+}
+
+.table-info th {
+  background-color: #d1ecf1 !important;
+  color: #0c5460;
+}
+
+/* Responsive layout for buttons and accordion */
+@media (max-width: 768px) {
+  .prediction-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .prediction-options .btn {
+    flex: 1 1 calc(50% - 10px);
+    font-size: 0.85rem;
+  }
+
+  .accordion-button.bg-prediction {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+  }
+
+  .prediction-table h6 {
+    font-size: 0.95rem;
+  }
+
+  .prediction-table th,
+  .prediction-table td {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .prediction-options .btn {
+    flex: 1 1 100%;
+  }
+
+  .accordion-button.bg-prediction {
+    font-size: 0.9rem;
+  }
+
+  .prediction-table th,
+  .prediction-table td {
+    font-size: 0.8rem;
+  }
+}
+
+
+/* ......Rainfall Prediction......  */
+.rainfall-table-container {
+  margin-top: 1rem;
+  width: 100%;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.rainfall-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.rainfall-table-container th,
+.rainfall-table-container td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 400;
+}
+
+.rainfall-table-container th {
+  background-color: #bcf1d1;
+  color: #1f5135;
+  font-weight: 600;
+}
+
+.severity {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Responsive font for small screens */
+@media (max-width: 768px) {
+  .rainfall-table-container table {
+    font-size: 0.85rem;
+  }
+
+  .rainfall-table-container th,
+  .rainfall-table-container td {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rainfall-table-container table {
+    font-size: 0.75rem;
+  }
+}

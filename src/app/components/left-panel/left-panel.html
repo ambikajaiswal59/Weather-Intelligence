@@ -1,0 +1,46 @@
+<div class="sidebar p-3  align-items-center">
+  <!-- DASHBOARD -->
+  <div class="menu-section  text-center ">
+    <div class="menu-title text-success fw-bold">DASHBOARD</div>
+    <a class="menu-item d-block" routerLink="/dashboard" routerLinkActive="active">
+      <img src="assets/icons/dashboardIcon.svg" alt="Real-Time" />
+      <div class="menu-text">REAL-TIME</div>
+    </a>
+  </div>
+
+  <hr class="w-100 my-2" />
+
+  <!-- REPORTS -->
+  <div class="menu-section-report text-center">
+    <div class="menu-title text-success fw-bold">REPORTS</div>
+    <!-- CIRCLE LEVEL (enabled) -->
+    <a class="menu-item d-block" routerLink="/reports/circle-level" routerLinkActive="active">
+      <img src="assets/icons/circleLevelReports.svg" alt="CIRCLE LEVEL" />
+      <div class="menu-text">CIRCLE LEVEL</div>
+    </a>
+    <!-- PAN INDIA (disabled) -->
+    <a class="menu-item d-block disabled" title="Pan India Report" (click)="$event.preventDefault()">
+      <img src="assets/icons/PanIndia.svg" alt="PAN INDIA" />
+      <div class="menu-text">PAN INDIA</div>
+    </a>
+    <!-- USAGE (disabled) -->
+    <a class="menu-item d-block disabled" title="Usage Report" (click)="$event.preventDefault()">
+      <img src="assets/icons/reports.svg" alt="USAGE" />
+      <div class="menu-text">USAGE</div>
+    </a>
+  </div>
+
+  <hr class="w-100 my-2" />
+
+  <!-- THVS -->
+  <div class="menu-section  text-center">
+    <div class="menu-title text-success fw-bold">THVS</div>
+
+    <a class="menu-item" [class.disabled]="isTHVSDisabled"
+      [attr.title]="isTHVSDisabled ? 'Tower Hazard Vulnerability Score' : ''"
+      [routerLink]="isTHVSDisabled ? null : '/THVS'" (click)="isTHVSDisabled ? $event.preventDefault() : null">
+      <img src="assets/icons/towerPanel.svg" alt="THV SCORE" />
+      <div class="menu-text">THV SCORE</div>
+    </a>
+  </div>
+</div>
